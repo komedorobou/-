@@ -261,12 +261,12 @@ h2 .badge {
       <div class="time-row">
         <div>
           <label for="timeFrom">利用開始時間</label>
-          <input type="time" id="timeFrom" step="600">
+          <select id="timeFrom"></select>
         </div>
         <div class="separator">〜</div>
         <div>
           <label for="timeTo">利用終了時間</label>
-          <input type="time" id="timeTo" step="600">
+          <select id="timeTo"></select>
         </div>
       </div>
     </div>
@@ -362,8 +362,23 @@ const EMPLOYEES = {"10830": {"dept": "秘書課", "name": "森　達也"}, "1148
 const STORAGE_KEY = 'parking_records';
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbwOd3IcFzOwrBoHas56swKM0yzD7YO8FUhF48io4qrSzkeTd0XJ4z75dW4qlOBk5P1-/exec';
 
+// Build 10-minute interval time options
+function buildTimeOptions(selectEl) {
+  const pad = n => String(n).padStart(2, '0');
+  for (let h = 0; h < 24; h++) {
+    for (let m = 0; m < 60; m += 10) {
+      const opt = document.createElement('option');
+      opt.value = pad(h) + ':' + pad(m);
+      opt.textContent = pad(h) + ':' + pad(m);
+      selectEl.appendChild(opt);
+    }
+  }
+}
+
 // Init
 document.addEventListener('DOMContentLoaded', () => {
+  buildTimeOptions(document.getElementById('timeFrom'));
+  buildTimeOptions(document.getElementById('timeTo'));
   document.getElementById('useDate').value = new Date().toISOString().split('T')[0];
   const now = new Date();
   const mins = now.getMinutes();
@@ -449,8 +464,8 @@ document.getElementById('purpose').addEventListener('change', function() {
 });
 
 document.getElementById('purposeOther').addEventListener('input', validate);
-document.getElementById('timeFrom').addEventListener('input', validate);
-document.getElementById('timeTo').addEventListener('input', validate);
+document.getElementById('timeFrom').addEventListener('change', validate);
+document.getElementById('timeTo').addEventListener('change', validate);
 document.getElementById('useDate').addEventListener('input', validate);
 document.getElementById('ticketCount').addEventListener('input', validate);
 document.getElementById('carCount').addEventListener('input', validate);
