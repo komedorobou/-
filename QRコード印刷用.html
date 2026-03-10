@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>駐車券管理 QRコード</title>
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", sans-serif;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+.print-card {
+  text-align: center;
+  padding: 40px;
+  max-width: 500px;
+  width: 100%;
+}
+h1 {
+  font-size: 2rem;
+  color: #2c5282;
+  margin-bottom: 12px;
+}
+.subtitle {
+  font-size: 1.1rem;
+  color: #4a5568;
+  margin-bottom: 32px;
+}
+#qr {
+  margin: 0 auto 24px;
+}
+#qr svg {
+  display: block;
+  margin: 0 auto;
+}
+.instructions {
+  font-size: 1.3rem;
+  color: #2d3748;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+.arrow {
+  font-size: 2rem;
+  margin-bottom: 8px;
+}
+.note {
+  font-size: 0.85rem;
+  color: #a0aec0;
+  margin-top: 24px;
+}
+@media print {
+  body { background: #fff; }
+  .no-print { display: none !important; }
+}
+.edit-area {
+  margin-top: 32px;
+  padding: 20px;
+  background: #f7fafc;
+  border-radius: 12px;
+  border: 2px dashed #cbd5e0;
+}
+.edit-area label {
+  display: block;
+  font-weight: bold;
+  color: #4a5568;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+}
+.edit-area input {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  margin-bottom: 12px;
+}
+.edit-area input:focus {
+  outline: none;
+  border-color: #4299e1;
+}
+.edit-area button {
+  padding: 10px 24px;
+  background: #4299e1;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  margin-right: 8px;
+}
+.edit-area button:hover { background: #3182ce; }
+.btn-print {
+  padding: 10px 24px;
+  background: #48bb78;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+.btn-print:hover { background: #38a169; }
+</style>
+</head>
+<body>
+<div class="print-card">
+  <h1>組合員駐車券管理</h1>
+  <p class="subtitle">駐車券の利用申請はこちらから</p>
+  <div class="arrow">&#9660;</div>
+  <div id="qr"></div>
+  <p class="instructions">スマホでQRコードを<br>読み取ってください</p>
+  <p class="note">カメラアプリまたはQRコードリーダーで読み取れます</p>
+
+  <div class="edit-area no-print">
+    <label>QRコードに埋め込むURL（ホスト先が決まったら変更してください）</label>
+    <input type="text" id="urlInput" placeholder="https://example.com/駐車券管理.html">
+    <div>
+      <button onclick="generateQR()">QRコード更新</button>
+      <button class="btn-print" onclick="window.print()">印刷する</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ★★★ ここのURLを実際のホスト先に変更してください ★★★
+const DEFAULT_URL = 'https://example.com/駐車券管理.html';
+
+function generateQR() {
+  const input = document.getElementById('urlInput');
+  const url = input.value.trim() || DEFAULT_URL;
+  input.value = url;
+
+  const qrDiv = document.getElementById('qr');
+  qrDiv.innerHTML = '';
+  const qr = qrcode(0, 'M');
+  qr.addData(url);
+  qr.make();
+  qrDiv.innerHTML = qr.createSvgTag(8, 0);
+}
+
+document.getElementById('urlInput').value = DEFAULT_URL;
+generateQR();
+</script>
+</body>
+</html>
