@@ -371,7 +371,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const to = new Date(now);
   to.setMinutes(rounded, 0, 0);
   if (rounded >= 60) to.setHours(to.getHours() + 1, 0, 0, 0);
-  const from = new Date(to.getTime() - 1 * 60 * 60 * 1000);
+  const from = new Date(to.getTime() - 1.5 * 60 * 60 * 1000);
   const pad = n => String(n).padStart(2, '0');
   document.getElementById('timeFrom').value = pad(from.getHours()) + ':' + pad(from.getMinutes());
   document.getElementById('timeTo').value = pad(to.getHours()) + ':' + pad(to.getMinutes());
