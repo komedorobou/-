@@ -1,0 +1,8 @@
+venv/
+__pycache__/
+*.pyc
+.env
+data/binance/*.csv
+data/hyperliquid/*.csv
+results/*.csv
+results/*.txt
